@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Système de Formulaire de Signalement</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="header-container">
+            <button id="homeBtn" class="home-btn">
+                <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+                    <polyline points="9,22 9,12 15,12 15,22"/>
+                </svg>
+                <span class="home-text">Accueil</span>
+            </button>
+            
+            <div class="header-title">
+                <svg class="shield-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+                </svg>
+                <div>
+                    <h1 class="title" id="headerTitle">Système de Signalement</h1>
+                    <p class="subtitle" id="headerSubtitle">Plateforme sécurisée de signalement d'incidents</p>
+                </div>
+            </div>
+            
+            <div class="header-right">
+                <div class="language-selector">
+                    <button class="language-btn" id="languageBtn">
+                       <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#a3a3a3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-globe-icon lucide-globe"><circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/><path d="M2 12h20"/></svg>
+                        <span id="currentFlag">🇫🇷</span>
+                        <span id="currentLang" class="lang-name">Français</span>
+                    </button>
+                    
+                    <div class="language-dropdown" id="languageDropdown">
+                        <button class="lang-option" data-lang="fr">
+                            <span class="flag">🇫🇷</span>
+                            <span>Français</span>
+                        </button>
+                        <button class="lang-option" data-lang="en">
+                            <span class="flag">🇺🇸</span>
+                            <span>English</span>
+                        </button>
+                        <button class="lang-option" data-lang="es">
+                            <span class="flag">🇪🇸</span>
+                            <span>Español</span>
+                        </button>
+                        <button class="lang-option" data-lang="ar">
+                            <span class="flag">🇸🇦</span>
+                            <span>العربية</span>
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="confidential">
+                    <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                        <polyline points="14,2 14,8 20,8"/>
+                        <line x1="16" y1="13" x2="8" y2="13"/>
+                        <line x1="16" y1="17" x2="8" y2="17"/>
+                        <polyline points="10,9 9,9 8,9"/>
+                    </svg>
+                    <span id="confidentialText">Confidentiel</span>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <div class="main-container">
+        <!-- Progress Steps -->
+        <div class="progress-container" id="progressContainer">
+            <div class="progress-steps">
+                <div class="step active" data-step="1">
+                    <div class="step-circle">1</div>
+                    <div class="step-info">
+                        <p class="step-title" id="step1Title">Type de signaleur</p>
+                    </div>
+                    <div class="step-line"></div>
+                </div>
+                <div class="step" data-step="2">
+                    <div class="step-circle">2</div>
+                    <div class="step-info">
+                        <p class="step-title" id="step2Title">Vos informations</p>
+                    </div>
+                    <div class="step-line"></div>
+                </div>
+                <div class="step" data-step="3">
+                    <div class="step-circle">3</div>
+                    <div class="step-info">
+                        <p class="step-title" id="step3Title">L'incident</p>
+                    </div>
+                    <div class="step-line"></div>
+                </div>
+                <div class="step" data-step="4">
+                    <div class="step-circle">4</div>
+                    <div class="step-info">
+                        <p class="step-title" id="step4Title" name ="preuves">Preuves</p>
+                    </div>
+                    <div class="step-line"></div>
+                </div>
+                <div class="step" data-step="5">
+                    <div class="step-circle">5</div>
+                    <div class="step-info">
+                        <p class="step-title" id="step5Title" name ="recap">Récapitulatif</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Form Steps -->
+        <div class="form-container">
+            <!-- Step 1: Type Selection -->
+            <div class="form-step active" id="step1">
+                <div class="form-card">
+                    <h2 id="typeSelectionTitle" name = "signaleur">Type de signaleur</h2>
+                    <p id="typeSelectionSubtitle" name = "situation">Sélectionnez votre situation pour adapter le formulaire à vos besoins</p>
+                    
+                    <div class="type-options">
+                        <button class="type-option" data-type="victime">
+                            <svg class="type-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+                                <circle cx="12" cy="7" r="4"/>
+                            </svg>
+                            <div class="type-content">
+                                <h3 id="victimeTitle" name ="victime">Je suis la victime</h3>
+                                <p id="victimeDesc">Vous signalez un incident dont vous êtes directement victime</p>
+                            </div>
+                        </button>
+                        
+                        <button class="type-option" data-type="temoin">
+                            <svg class="type-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
+                                <circle cx="12" cy="12" r="3"/>
+                            </svg>
+                            <div class="type-content">
+                                <h3 id="temoinTitle" name ="témoin">Je suis témoin</h3>
+                                <p id="temoinDesc">Vous avez été témoin d'un incident et souhaitez le signaler</p>
+                            </div>
+                        </button>
+                        
+                        <button class="type-option" data-type="auteur">
+                          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#626060" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-users-icon lucide-users"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><path d="M16 3.128a4 4 0 0 1 0 7.744"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><circle cx="9" cy="7" r="4"/></svg>
+                            <div class="type-content">
+                                <h3 id="auteurTitle" name ="autre">Signalement tiers</h3>
+                                <p id="auteurDesc">Parent, voisin, autorité, professionnel de santé, etc.</p>
+                            </div>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Step 2: Signaleur Form -->
+            <div class="form-step" id="step2">
+                <div class="form-card">
+                    <h2 id="signaleurFormTitle" name ="information_signaleur">Informations du signaleur</h2>
+                    
+                    <!-- Matricule for victime -->
+                    <div class="matricule-info" id="matriculeInfo" style="display: none;">
+                        <p><strong id="matriculeLabel" name ="matricule">Matricule attribué :</strong> <span id="matriculeValue"></span></p>
+                        <p class="matricule-desc" id="matriculeDesc">Ce matricule vous permettra de suivre votre signalement en toute confidentialité</p>
+                    </div>
+                    
+                    <!-- Anonymous option for temoin -->
+                    <div class="anonymous-option" id="anonymousOption" style="display: none;">
+                        <label class="checkbox-label">
+                            <input type="checkbox" id="anonymousCheck">
+                            <span class="checkmark"></span>
+                            <span id="anonymousText" name ="souhaite_anonyme">Je souhaite rester anonyme</span>
+                        </label>
+                        <p class="anonymous-desc" id="anonymousDesc">Si vous choisissez l'anonymat, vos informations personnelles ne seront pas conservées</p>
+                    </div>
+                    
+                    <!-- Type auteur selection -->
+                    <div class="form-group" id="typeAuteurGroup" style="display: none;">
+                        <label for="typeAuteur" id="typeAuteurLabel" name ="type_signaleur">Type de signaleur <span class="required">*</span></label>
+                        <select id="typeAuteur" class="form-select">
+                            <option value="" id="typeAuteurPlaceholder">Sélectionnez votre qualité</option>
+                            <option value="parent" name="parent">Parent/Tuteur légal</option>
+                            <option value="voisin" name="voisin">Voisin</option>
+                            <option value="religieux" name="dignitaire">Dignitaire religieux</option>
+                            <option value="traditionnel" name="traditionnel_leader">Leader traditionnel</option>
+                            <option value="medecin" name="medecin">Médecin/Personnel médical</option>
+                            <option value="police" name="Officier">Officier de police judiciaire</option>
+                            <option value="autorite" name="autorite">Autorité locale</option>
+                            <option value="enseignant" name="enseignant">Enseignant</option>
+                            <option value="social" name="Travailleur_social">Travailleur social</option>
+                            <option value="autre" name="autre_position">Autre</option>
+                        </select>
+                    </div>
+                    
+                    <!-- Personal information form -->
+                    <div class="personal-info" id="personalInfo">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="nom" id="nomLabel" name="nom_pers_implic">Nom <span class="required">*</span></label>
+                                <input type="text" id="nom" class="form-input" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="prenom" id="prenomLabel" name="prenom_pers_implic">Prénom <span class="required">*</span></label>
+                                <input type="text" id="prenom" class="form-input" required>
+                            </div>
+                        </div>
+                        
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="telephone" id="telephoneLabel" name="tel_pers">Téléphone <span class="required">*</span></label>
+                                <input type="tel" id="telephone" class="form-input" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="email" id="emailLabel" name="mail_pers">Email</label>
+                                <input type="email" id="email" class="form-input">
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="adresse" id="adresseLabel" name="adresse_pers">Adresse <span class="required">*</span></label>
+                            <textarea id="adresse" class="form-textarea" rows="3" required></textarea>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Step 3: Incident Form -->
+            <div class="form-step" id="step3">
+                <div class="form-card">
+                    <h2 id="incidentFormTitle">Informations sur l'incident</h2>
+                    
+                    <div class="form-group">
+                        <label for="natureIncident" id="natureLabel" name="nature_incident">Nature de l'incident <span class="required">*</span></label>
+                        <select id="natureIncident" class="form-select" required>
+                            <option value="" id="naturePlaceholder">Sélectionnez la nature de l'incident</option>
+                            <option value="Violence physique">Violence physique</option>
+                            <option value="Violence psychologique">Violence psychologique</option>
+                            <option value="Harcèlement">Violence Sexuelle</option>
+                            <option value="Discrimination">Discrimination</option>
+                            <option value="Négligence">Violence Économique</option>
+                            <option value="Exploitation">Mariages Forcés</option>
+                            <option value="Abus de pouvoir">Mutilations génitales féminines(MGF)</option>
+                            <option value="Corruption">Déni de l'accès aux ressources et aux opportunités</option>
+                            <option value="Fraude">Violence Conjugale</option>
+                            <option value="Autre">Autre</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="dateIncident" id="dateLabel" name="date_incident">Date de l'incident <span class="required">*</span></label>
+                            <input type="datetime-local" id="dateIncident" class="form-input" required max="">
+                        </div>
+                        <div class="form-group">
+                            <label for="lieuIncident" id="lieuLabel" name="lieu_incident">Lieu de l'incident <span class="required">*</span></label>
+                            <input type="text" id="lieuIncident" class="form-input" placeholder="Adresse, lieu précis..." required>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="description" id="descriptionLabel" name="description_incident">Description détaillée de l'incident <span class="required">*</span></label>
+                        <textarea id="description" class="form-textarea" rows="6" placeholder="Décrivez les faits de manière détaillée, chronologique si possible..." required></textarea>
+                        <p class="form-help" id="descriptionHelp">Soyez aussi précis que possible : qui, quoi, où, quand, comment</p>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="personnesImpliquees" id="personnesLabel" name="pers_implic_incident">Personnes impliquées</label>
+                        <textarea id="personnesImpliquees" class="form-textarea" name="description_pers_implic" rows="3" placeholder="Noms, fonctions, rôles des personnes impliquées..."></textarea>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="temoins" id="temoinsLabel" name="temoins_enventuels">Témoins éventuels</label>
+                        <textarea id="temoins" class="form-textarea" rows="3" name="desciption_temoin_eventuel" placeholder="Personnes ayant assisté à l'incident, coordonnées si possible..."></textarea>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Step 4: Evidence Form -->
+            <div class="form-step" id="step4">
+                <div class="form-card">
+                    <h2 id="preuvesFormTitle">Preuves et documents</h2>
+                    <p id="preuvesFormSubtitle">Téléchargez tous les documents, photos, vidéos ou fichiers audio qui peuvent appuyer votre signalement</p>
+                    
+                    <div class="upload-area" id="uploadArea">
+                        <svg class="upload-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                            <polyline points="7,10 12,15 17,10"/>
+                            <line x1="12" y1="15" x2="12" y2="3"/>
+                        </svg>
+                        <p class="upload-text">
+                            <span id="uploadClickText">Cliquez pour télécharger</span> <span id="uploadDragText">ou glissez-déposez</span>
+                        </p>
+                        <p class="upload-types" id="uploadTypes">Images, vidéos, documents PDF, audio (MAX 10MB par fichier)</p>
+                        <input type="file" name="preuves_files" id="fileInput" multiple accept="image/*,video/*,audio/*,.pdf,.doc,.docx,.txt" style="display: none;">
+                    </div>
+                    
+                    <div class="uploaded-files" id="uploadedFiles" style="display: none;">
+                        <h3 id="filesUploadedTitle">Fichiers téléchargés</h3>
+                        <div class="files-list" id="filesList"></div>
+                    </div>
+                    
+                    <div class="advice-box">
+                        <h4 id="adviceTitle">Conseils pour les preuves</h4>
+                        <ul id="adviceList">
+                            <li>• Assurez-vous que les photos sont nettes et bien éclairées</li>
+                            <li>• Les captures d'écran doivent être lisibles</li>
+                            <li>• Nommez vos fichiers de manière explicite</li>
+                            <li>• Vérifiez que les dates et heures sont visibles si pertinentes</li>
+                            <li>• N'hésitez pas à ajouter des commentaires dans la description</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Step 5: Summary -->
+            <div class="form-step" id="step5">
+                <div class="form-card">
+                    <h2 id="recapTitle">Récapitulatif de votre signalement</h2>
+                    <p id="recapSubtitle">Vérifiez les informations avant la soumission finale</p>
+                    
+                    <div class="summary-content" id="summaryContent">
+                        <!-- Summary will be populated by JavaScript -->
+                    </div>
+                    
+                    <div class="warning-box">
+                        <h4 id="beforeSubmitTitle">Avant de soumettre</h4>
+                        <ul id="warningsList">
+                            <li>• Vos informations seront traitées de manière confidentielle</li>
+                            <li>• Un accusé de réception sera généré</li>
+                            <li>• Vous pourrez suivre l'évolution de votre signalement</li>
+                            <li>• En cas d'urgence, contactez immédiatement les autorités compétentes</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Success Page -->
+            <div class="form-step" id="successPage" style="display: none;">
+                <div class="form-card success-card">
+                    <svg class="success-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
+                        <polyline points="22,4 12,14.01 9,11.01"/>
+                    </svg>
+                    <h2 id="successTitle">Signalement soumis avec succès</h2>
+                    <p id="successMessage">Votre signalement a été enregistré et sera traité dans les plus brefs délais.</p>
+                    
+                    <div class="tracking-info" id="trackingInfo">
+                        <p><strong id="trackingLabel">Votre numéro de suivi :</strong> <span id="trackingNumber"></span></p>
+                        <p class="tracking-desc" id="trackingDesc">Conservez ce numéro pour suivre l'évolution de votre signalement</p>
+                    </div>
+                    
+                    <div class="success-details" id="successDetails">
+                        <h3 id="successDetailsTitle">Détails de votre signalement</h3>
+                        <div class="success-summary" id="successSummary">
+                            <!-- Le contenu sera généré par JavaScript -->
+                        </div>
+                    </div>
+                    
+                    <div class="success-info">
+                        <p id="successInfo1">• Un accusé de réception sera envoyé si vous avez fourni une adresse email</p>
+                        <p id="successInfo2">• Les informations seront traitées de manière confidentielle</p>
+                        <p id="successInfo3">• En cas d'urgence, contactez immédiatement les autorités compétentes</p>
+                    </div>
+                    
+                    <div class="success-actions">
+                        <button class="nav-btn primary" id="newReportBtn">
+                            <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M12 5v14m-7-7h14"/>
+                            </svg>
+                            <span id="newReportText">Nouveau signalement</span>
+                        </button>
+                        <button class="nav-btn secondary" id="printBtn">
+                            <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M6 9V2h12v7M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2M6 14h12v8H6z"/>
+                            </svg>
+                            <span id="printText">Imprimer le récépissé</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Navigation -->
+        <div class="navigation" id="navigation">
+            <button class="nav-btn secondary" id="prevBtn" disabled>
+                <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <polyline points="15,18 9,12 15,6"/>
+                </svg>
+                <span id="prevText">Précédent</span>
+            </button>
+            
+            <div class="step-indicator">
+                <span id="stepIndicator">Étape 1 sur 5</span>
+            </div>
+            
+            <button class="nav-btn primary" id="nextBtn">
+                <span id="nextText">Suivant</span>
+                <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <polyline points="9,18 15,12 9,6"/>
+                </svg>
+            </button>
+            
+            <button class="nav-btn success" id="submitBtn" style="display: none;">
+                <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <line x1="22" y1="2" x2="11" y2="13"/>
+                    <polygon points="22,2 15,22 11,13 2,9 22,2"/>
+                </svg>
+                <span id="submitText">Soumettre le signalement</span>
+            </button>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
